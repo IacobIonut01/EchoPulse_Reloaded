@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+import java.util.List;
+
 @TeleOp(name = "Ciordeala ieftina+")
 public class SkyStoneOp extends LinearOpMode {
 
@@ -35,7 +39,7 @@ public class SkyStoneOp extends LinearOpMode {
         motorDF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
-
+        /*
         while (opModeIsActive()) {
 
             double x = -gamepad1.left_stick_x;
@@ -49,7 +53,8 @@ public class SkyStoneOp extends LinearOpMode {
                 hexBaza.setPower(-1);
             else
                 hexBaza.setPower(0);
-        }
+        }*/
+
 
     }
 
