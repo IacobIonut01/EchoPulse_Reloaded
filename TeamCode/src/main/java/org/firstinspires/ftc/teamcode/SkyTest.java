@@ -105,8 +105,8 @@ public class SkyTest extends LinearOpMode {
 
 
         telemetry.addData("Z:", angleZ);
-        telemetry.addData("Y", angleY);
-        telemetry.addData("X", angleX);
+        telemetry.addData("Y:", angleY);
+        telemetry.addData("X:", angleX);
 
         telemetry.addData("grav X", gravX);
         telemetry.addData("grav Y", gravY);

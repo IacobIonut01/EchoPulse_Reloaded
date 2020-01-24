@@ -10,6 +10,4 @@ public class Constants {
         BREAK, FLOAT
     }
 
-    int incercare = 100;
-
 }
