@@ -16,8 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
 
-@Autonomous(name = "How fast is the Autonomous period? YES", group = "FTC")
-public class QubeDemoREVERSE extends LinearOpMode {
+@Autonomous(name = "Precizie", group = "FTC")
+public class TestPrecizie extends LinearOpMode {
 
 
     BNO055IMU imu;
@@ -84,11 +84,8 @@ public class QubeDemoREVERSE extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            //moveTo(80, 0.66);
-            moveTo(62, 0.69);
-            strafeTo(76.2, 0.69);
-            strafeTo(-203.2, 0.69);
-            strafeTo( 94, 0.69);
+            moveTo(100, 0.66);
+            strafeTo(100, 0.69);
             rotate(180);
             this.didFunctionRun = true;
         }
