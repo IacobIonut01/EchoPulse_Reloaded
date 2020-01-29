@@ -5,11 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -19,19 +16,18 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
 
-@Autonomous(name = "How fast is the Autonomous period? YES", group = "FTC")
-public class QubeDemoREVERSE extends LinearOpMode {
-
+@Autonomous(name = "SkyAutonomousRedBridgeShort", group = "FTC")
+public class SkyAutonomousRedBridgeShort extends LinearOpMode {
 
     private BNO055IMU imu;
 
     private double countsPerRotation = 28;
     private double rotatiiMari = 40;
-
     private double diametruRoata = 10;
     private double precision = 1;
     private double countsPerCM = (countsPerRotation * rotatiiMari) / (Math.PI * diametruRoata) * precision;
@@ -39,8 +35,9 @@ public class QubeDemoREVERSE extends LinearOpMode {
     private DcMotor motorDS;
     private DcMotor motorSF;
     private DcMotor motorSS;
-    boolean didFunctionRun = false;
+    private boolean didFunctionRun = false;
     private double globalAngle = 0;
+    private int skystonePos = 0;
     private Orientation lastAngles = new Orientation();
 
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -105,8 +102,7 @@ public class QubeDemoREVERSE extends LinearOpMode {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                skystoneFinder();
-                //DoAutonomusStuff(didFunctionRun);
+                DoAutonomusStuff(didFunctionRun);
             }
         }
 
@@ -117,12 +113,18 @@ public class QubeDemoREVERSE extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            //moveTo(80, 0.66);
-            moveTo(62, 0.69);
-            strafeTo(76.2, 0.69);
-            strafeTo(-203.2, 0.69);
-            strafeTo( 94, 0.69);
-            rotate(180);
+            moveTo(58.42, 0.3);
+            skystoneFinder();
+            switch (skystonePos) {
+                case 0:
+                    strafeTo(208.28-2*23.706, 0.69);
+                case 1:
+                    strafeTo(208.28-1*23.706, 0.69);
+                case 2:
+                    strafeTo(208.28-0*23.706, 0.69);
+            }
+            strafeTo( -101.6, 0.69);
+
             this.didFunctionRun = true;
         }
     }
@@ -136,25 +138,27 @@ public class QubeDemoREVERSE extends LinearOpMode {
             if (updatedRecognitions != null) {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
-                int i = 0;
-                for (Recognition recognition : updatedRecognitions) {
-                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                for (int i = 0; i < updatedRecognitions.size(); i++) {
+                    Recognition recognition = updatedRecognitions.get(i);
+                    telemetry.addData(String.format(Locale.ENGLISH, "label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format(Locale.ENGLISH, "  left,top (%d)", i), "%.03f , %.03f",
                             recognition.getLeft(), recognition.getTop());
-                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                    telemetry.addData(String.format(Locale.ENGLISH, "  right,bottom (%d)", i), "%.03f , %.03f",
                             recognition.getRight(), recognition.getBottom());
                     if (recognition.getLabel().equals("Skystone")) {
                         skystoneFound = true;
                     }
                 }
                 telemetry.update();
-            }
-            while (!skystoneFound){
-                strafeTo(20.66, 0.33);
-            }
-            if (skystoneFound) {
-                stopAuto();
-                moveTo(10, 0.3);
+                while (!skystoneFound) {
+                    strafeTo(-23.706, 0.2);
+                    skystonePos++;
+                }
+                if (skystoneFound) {
+                    stopAuto();
+                    moveTo(10, 0.3);
+                    moveTo(-10, 0.3);
+                }
             }
         }
     }
@@ -176,8 +180,8 @@ public class QubeDemoREVERSE extends LinearOpMode {
         return correction;
     }
 
-    void moveTo(double dist, double speed){
-        int countsNeeded = (int)(countsPerCM * dist);
+    private void moveTo(double cm, double speed){
+        int countsNeeded = (int)(countsPerCM * cm);
 
         motorDF.setTargetPosition(motorDF.getCurrentPosition() + countsNeeded);
         motorDS.setTargetPosition(motorDS.getCurrentPosition() + countsNeeded);
@@ -212,8 +216,8 @@ public class QubeDemoREVERSE extends LinearOpMode {
         motorSS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    void strafeTo(double dist, double speed){
-        int countsNeeded = (int)(countsPerCM * dist);
+    private void strafeTo(double cm, double speed){
+        int countsNeeded = (int)(countsPerCM * cm);
 
         motorDF.setTargetPosition(motorDF.getCurrentPosition() - countsNeeded);
         motorDS.setTargetPosition(motorDS.getCurrentPosition() + countsNeeded);
@@ -330,7 +334,7 @@ public class QubeDemoREVERSE extends LinearOpMode {
         motorSF.setPower(0);
     }
 
-    void reversePolarity(){
+    private void reversePolarity(){
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -366,4 +370,5 @@ public class QubeDemoREVERSE extends LinearOpMode {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
+
 }

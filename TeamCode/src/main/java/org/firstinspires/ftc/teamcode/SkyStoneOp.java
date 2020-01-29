@@ -17,7 +17,7 @@ public class SkyStoneOp extends LinearOpMode {
     private DcMotor motorDS;
     private DcMotor motorSF;
     private DcMotor motorSS;
-    private DcMotor hexBaza;
+    private DcMotor hexBaza, hexEx;
 
     @Override
     public void runOpMode() {
@@ -26,6 +26,7 @@ public class SkyStoneOp extends LinearOpMode {
         motorSF = hardwareMap.dcMotor.get("MotorSF");
         motorSS = hardwareMap.dcMotor.get("MotorSS");
         hexBaza = hardwareMap.dcMotor.get("hexBaza");
+        hexEx = hardwareMap.dcMotor.get("hexEx");
 
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -33,13 +34,14 @@ public class SkyStoneOp extends LinearOpMode {
         motorSS.setDirection(DcMotorSimple.Direction.REVERSE);
 
         hexBaza.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hexEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorSS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorSF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
-        /*
+
         while (opModeIsActive()) {
 
             double x = -gamepad1.left_stick_x;
@@ -53,7 +55,13 @@ public class SkyStoneOp extends LinearOpMode {
                 hexBaza.setPower(-1);
             else
                 hexBaza.setPower(0);
-        }*/
+            if (gamepad1.x)
+                hexEx.setPower(1);
+            else if (gamepad1.y)
+                hexEx.setPower(-1);
+            else
+                hexEx.setPower(0);
+        }
 
 
     }
