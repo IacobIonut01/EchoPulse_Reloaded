@@ -116,7 +116,7 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            moveTo(58.42, 0.3);
+            moveTo(50, 0.2);
             skystoneFinder();
             switch (skystonePos) {
                 case 0:
@@ -196,8 +196,8 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
         motorSF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorSS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorDF.setPower(speed - checkDirection());
-        motorDS.setPower(speed - checkDirection());
+        motorDF.setPower(speed);
+        motorDS.setPower(speed);
         motorSF.setPower(speed);
         motorSS.setPower(speed);
 
@@ -222,9 +222,9 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
     private void strafeTo(double cm, double speed){
         int countsNeeded = (int)(countsPerCM * cm);
 
-        motorDF.setTargetPosition(motorDF.getCurrentPosition() - countsNeeded);
+        motorDF.setTargetPosition(motorDF.getCurrentPosition() + countsNeeded);
         motorDS.setTargetPosition(motorDS.getCurrentPosition() + countsNeeded);
-        motorSF.setTargetPosition(motorSF.getCurrentPosition() + countsNeeded);
+        motorSF.setTargetPosition(motorSF.getCurrentPosition() - countsNeeded);
         motorSS.setTargetPosition(motorSS.getCurrentPosition() - countsNeeded);
 
         motorDF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -232,8 +232,8 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
         motorSF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorSS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorDF.setPower(speed - checkDirection());
-        motorDS.setPower(speed - checkDirection());
+        motorDF.setPower(speed);
+        motorDS.setPower(speed);
         motorSF.setPower(speed);
         motorSS.setPower(speed);
 
@@ -338,10 +338,10 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
     }
 
     private void reversePolarity(){
-        motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorSS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorSF.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorSS.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     /**

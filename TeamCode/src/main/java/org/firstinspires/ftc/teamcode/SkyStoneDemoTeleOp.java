@@ -51,10 +51,10 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
         motoryes = hardwareMap.dcMotor.get("bratan");
 
         //regleaza polaritatea motoarelor
-        motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorSS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorSF.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorSS.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motorSS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -126,7 +126,7 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
      * @param Forward is the only double Y value which represents how the base should drive forward
      * @param Turn    is the second double X value which represents how the base should turn
      */
-    public void mecanum(double Strafe, double Forward, double Turn) {
+    private void mecanum(double Strafe, double Forward, double Turn) {
         //Find the magnitude of the controller's input
         double r = Math.hypot(Strafe, Forward);
 
