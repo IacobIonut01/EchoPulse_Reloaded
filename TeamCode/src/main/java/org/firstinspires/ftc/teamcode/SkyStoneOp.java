@@ -71,7 +71,13 @@ public class SkyStoneOp extends LinearOpMode {
 
             telemetry.addData("Yes", motoryes.getCurrentPosition());
             telemetry.update();
-            motoryes.setPower(gamepad2.right_stick_y > 0 ? gamepad2.right_stick_y : gamepad2.right_stick_y/5);
+
+            if (gamepad2.right_stick_y > 0)
+                motoryes.setPower(gamepad2.right_stick_y * 0.8);
+            else if (gamepad2.right_stick_y < 0)
+                motoryes.setPower(gamepad2.right_stick_y * 0.2);
+            else
+                motoryes.setPower(0);
 
             if (gamepad2.a)
                 ax0.setPosition(ax0.getPosition()+0.01);
