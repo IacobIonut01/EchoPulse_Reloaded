@@ -11,13 +11,27 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.List;
 
-@TeleOp(name = "Ciordeala ieftina+")
-public class SkyStoneOp extends LinearOpMode {
+@TeleOp(name = "SkyStone TeleOp Demo")
+public class SkyStoneDemoTeleOp extends LinearOpMode {
 
     private DcMotor motorDF;
     private DcMotor motorDS;
     private DcMotor motorSF;
     private DcMotor motorSS;
+
+    //servo-urile de la sistemul de suctiune
+    private Servo servo0;
+    private Servo servo1;
+    private Servo servo2;
+    private Servo servo3;
+
+    //servo-urile de la apucator
+    private Servo ax0;
+    private Servo ax1;
+
+    //motorul bratului
+    private DcMotor motoryes;
+
 
     @Override
     public void runOpMode() {
@@ -25,14 +39,18 @@ public class SkyStoneOp extends LinearOpMode {
         motorDS = hardwareMap.dcMotor.get("MotorDS");
         motorSF = hardwareMap.dcMotor.get("MotorSF");
         motorSS = hardwareMap.dcMotor.get("MotorSS");
-        Servo servo0 = hardwareMap.servo.get("sugere0");
-        Servo servo1 = hardwareMap.servo.get("sugere1");
-        Servo servo2 = hardwareMap.servo.get("sugere2");
-        Servo servo3 = hardwareMap.servo.get("sugere3");
-        Servo ax0 = hardwareMap.servo.get("ax0");
-        Servo ax1 = hardwareMap.servo.get("ax1");
-        DcMotor motoryes = hardwareMap.dcMotor.get("bratan");
 
+        servo0 = hardwareMap.servo.get("sugere0");
+        servo1 = hardwareMap.servo.get("sugere1");
+        servo2 = hardwareMap.servo.get("sugere2");
+        servo3 = hardwareMap.servo.get("sugere3");
+
+        ax0 = hardwareMap.servo.get("ax0");
+        ax1 = hardwareMap.servo.get("ax1");
+
+        motoryes = hardwareMap.dcMotor.get("bratan");
+
+        //regleaza polaritatea motoarelor
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,6 +70,7 @@ public class SkyStoneOp extends LinearOpMode {
             double turn = gamepad1.right_stick_x;
             mecanum(x, y, turn);
 
+            //sistemul de suctiune
             if (gamepad1.a) {
                 servo0.setPosition(0);
                 servo2.setPosition(0);
@@ -69,7 +88,10 @@ public class SkyStoneOp extends LinearOpMode {
                 servo3.setPosition(0.5);
             }
 
-            telemetry.addData("Yes", motoryes.getCurrentPosition());
+            telemetry.addData("servo0: ", servo0.getPosition());
+            telemetry.addData("servo1: ", servo1.getPosition());
+            telemetry.addData("servo2: ", servo2.getPosition());
+            telemetry.addData("servo3: ", servo3.getPosition());
             telemetry.update();
 
             if (gamepad2.right_stick_y > 0)
@@ -79,16 +101,22 @@ public class SkyStoneOp extends LinearOpMode {
             else
                 motoryes.setPower(0);
 
-            if (gamepad2.a)
-                ax0.setPosition(ax0.getPosition()+0.01);
-            if (gamepad2.b)
-                ax0.setPosition(ax0.getPosition()-0.01);
-            if (gamepad2.x)
-                ax1.setPosition(ax1.getPosition()+0.01);
-            if (gamepad2.y)
-                ax1.setPosition(ax1.getPosition()-0.01);
-        }
+            telemetry.addData("motorYes: ", motoryes.getCurrentPosition());
+            telemetry.update();
 
+
+            if (gamepad2.a)
+                ax0.setPosition(ax0.getPosition()+0.001);
+            if (gamepad2.b)
+                ax0.setPosition(ax0.getPosition()-0.001);
+            if (gamepad2.x)
+                ax1.setPosition(ax1.getPosition()+0.001);
+            if (gamepad2.y)
+                ax1.setPosition(ax1.getPosition()-0.001);
+
+            telemetry.addData("ax0: ", ax0.getPosition());
+            telemetry.addData("ax1: ", ax1.getPosition());
+        }
     }
 
     /**

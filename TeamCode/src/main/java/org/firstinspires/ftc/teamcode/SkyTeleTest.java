@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,7 +10,7 @@ import static org.firstinspires.ftc.teamcode.Constants.Direction.HLEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.HRIGHT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
-
+@Disabled
 @TeleOp(name = "Sky Teleop Test")
 public class SkyTeleTest extends LinearOpMode {
 
