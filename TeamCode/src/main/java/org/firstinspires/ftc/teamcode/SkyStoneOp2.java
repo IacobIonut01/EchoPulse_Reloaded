@@ -1,23 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
-import java.util.List;
-
-@TeleOp(name = "Ciordeala ieftina+")
-public class SkyStoneOp extends LinearOpMode {
+@TeleOp(name = "Ciordeala ieftina++")
+public class SkyStoneOp2 extends LinearOpMode {
 
     private DcMotor motorDF;
     private DcMotor motorDS;
     private DcMotor motorSF;
     private DcMotor motorSS;
+    private DcMotor hexBaza, hexEx;
 
     @Override
     public void runOpMode() {
@@ -25,19 +20,16 @@ public class SkyStoneOp extends LinearOpMode {
         motorDS = hardwareMap.dcMotor.get("MotorDS");
         motorSF = hardwareMap.dcMotor.get("MotorSF");
         motorSS = hardwareMap.dcMotor.get("MotorSS");
-        Servo servo0 = hardwareMap.servo.get("sugere0");
-        Servo servo1 = hardwareMap.servo.get("sugere1");
-        Servo servo2 = hardwareMap.servo.get("sugere2");
-        Servo servo3 = hardwareMap.servo.get("sugere3");
-        Servo ax0 = hardwareMap.servo.get("ax0");
-        Servo ax1 = hardwareMap.servo.get("ax1");
-        DcMotor motoryes = hardwareMap.dcMotor.get("bratan");
+        hexBaza = hardwareMap.dcMotor.get("hexBaza");
+        hexEx = hardwareMap.dcMotor.get("hexEx");
 
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorSS.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        hexBaza.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hexEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorSS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorSF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -52,36 +44,20 @@ public class SkyStoneOp extends LinearOpMode {
             double turn = gamepad1.right_stick_x;
             mecanum(x, y, turn);
 
-            if (gamepad1.a) {
-                servo0.setPosition(0);
-                servo2.setPosition(0);
-                servo1.setPosition(1);
-                servo3.setPosition(1);
-            } else if (gamepad1.b) {
-                servo0.setPosition(1);
-                servo2.setPosition(1);
-                servo1.setPosition(0);
-                servo3.setPosition(0);
-            } else {
-                servo0.setPosition(0.5);
-                servo2.setPosition(0.5);
-                servo1.setPosition(0.5);
-                servo3.setPosition(0.5);
-            }
-
-            telemetry.addData("Yes", motoryes.getCurrentPosition());
-            telemetry.update();
-            motoryes.setPower(gamepad2.right_stick_y > 0 ? gamepad2.right_stick_y : gamepad2.right_stick_y/5);
-
-            if (gamepad2.a)
-                ax0.setPosition(ax0.getPosition()+0.01);
-            if (gamepad2.b)
-                ax0.setPosition(ax0.getPosition()-0.01);
-            if (gamepad2.x)
-                ax1.setPosition(ax1.getPosition()+0.01);
-            if (gamepad2.y)
-                ax1.setPosition(ax1.getPosition()-0.01);
+            if (gamepad1.a)
+                hexBaza.setPower(1);
+            else if (gamepad1.b)
+                hexBaza.setPower(-1);
+            else
+                hexBaza.setPower(0);
+            if (gamepad1.x)
+                hexEx.setPower(1);
+            else if (gamepad1.y)
+                hexEx.setPower(-1);
+            else
+                hexEx.setPower(0);
         }
+
 
     }
 
