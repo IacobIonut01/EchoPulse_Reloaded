@@ -1,20 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
-import java.util.List;
 @Disabled
 
-@TeleOp(name = "SkyStone TeleOp Demo")
-public class SkyStoneDemoTeleOp extends LinearOpMode {
+@TeleOp(name = "unu")
+public class unu extends LinearOpMode {
 
     private DcMotor motorDF;
     private DcMotor motorDS;
@@ -55,8 +50,8 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
         //regleaza polaritatea motoarelor
 
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorDS.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorSF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSS.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
@@ -77,12 +72,20 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
 
         waitForStart();
 
+        // left y: fata -> rotire dreapta          y
+        // left y: spate -> rotire stanga
+        // left x: stanga -> spate                 x
+        // - left x: dreapta -> fata
+        // right x: rd -> dreapta                  turn
+        // - right: rs -> stg
+
         while (opModeIsActive()) {
 
-            double x = -gamepad1.left_stick_x;
-            double y = gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double x =  gamepad1.left_stick_y;
+            double y = -gamepad1.right_stick_x;
+            double turn = gamepad1.left_stick_x;
             mecanum(x, y, turn);
+            //strafe, forward, turn
 
             //sistemul de suctiune
             if (gamepad1.a) {

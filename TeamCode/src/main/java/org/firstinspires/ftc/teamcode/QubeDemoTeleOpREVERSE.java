@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.internal.android.dx.ssa.DomFront;
 
 import java.util.prefs.BackingStoreException;
-
+@Disabled
 
 @TeleOp(name = "Qube teleop REVERSE", group = "FTC")
 public class QubeDemoTeleOpREVERSE extends LinearOpMode {
@@ -20,7 +21,7 @@ public class QubeDemoTeleOpREVERSE extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Servo servo = hardwareMap.servo.get("servo") ;
+        //Servo servo = hardwareMap.servo.get("servo") ;
 
         motorDF = hardwareMap.dcMotor.get("MotorDF");
         motorDS = hardwareMap.dcMotor.get("MotorDS");
@@ -115,11 +116,11 @@ public class QubeDemoTeleOpREVERSE extends LinearOpMode {
                 motorSS.setPower(0);
             }
 
-            if(gamepad1.y){
-                servo.setPosition(servo.getPosition() + 0.001);
-            } else
-            if(gamepad1.a)
-                servo.setPosition(servo.getPosition() - 0.001);
+          //  if(gamepad1.y){
+            //    servo.setPosition(servo.getPosition() + 0.001);
+            //} else
+            //if(gamepad1.a)
+              //  servo.setPosition(servo.getPosition() - 0.001);
         }
     }
 

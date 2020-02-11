@@ -18,6 +18,7 @@ import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
 
 @Disabled
+//original
 @Autonomous(name = "Sky Autonomous Test")
 public class SkyTest extends LinearOpMode {
 

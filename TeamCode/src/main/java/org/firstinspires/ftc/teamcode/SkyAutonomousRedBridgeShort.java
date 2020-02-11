@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,6 +22,7 @@ import java.util.Locale;
 
 import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
+@Disabled
 
 @Autonomous(name = "SkyAutonomousRedBridgeShort", group = "FTC")
 public class SkyAutonomousRedBridgeShort extends LinearOpMode {

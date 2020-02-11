@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Disabled
+
 @TeleOp(name = "Ciordeala ieftina++")
 public class SkyStoneOp2 extends LinearOpMode {
 
