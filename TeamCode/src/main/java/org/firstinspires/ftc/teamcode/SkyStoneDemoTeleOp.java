@@ -32,6 +32,7 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
     //motorul bratului
     private DcMotor motoryes;
 
+    private boolean slow = false;
 
     @Override
     public void runOpMode() {
@@ -50,9 +51,11 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
 
         motoryes = hardwareMap.dcMotor.get("bratan");
 
+        Servo platforma = hardwareMap.servo.get("platforma");
+
         //regleaza polaritatea motoarelor
-        motorDF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorDS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSS.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -65,10 +68,12 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double x = -gamepad1.left_stick_x;
-            double y = gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double x = gamepad1.left_stick_x * (slow ? 0.5 : 1);
+            double y = gamepad1.right_stick_x * (slow ? 0.5 : 1);
+            double turn = gamepad1.left_stick_y * (slow ? 0.5 : 1);
             mecanum(x, y, turn);
+
+            if (gamepad1.y) slow=!slow;
 
             //sistemul de suctiune
             if (gamepad1.a) {
@@ -88,22 +93,24 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
                 servo3.setPosition(0.5);
             }
 
+            if (gamepad2.right_bumper)
+                platforma.setPosition(0.6);
+            if (gamepad2.left_bumper)
+                platforma.setPosition(0);
+
             telemetry.addData("servo0: ", servo0.getPosition());
             telemetry.addData("servo1: ", servo1.getPosition());
             telemetry.addData("servo2: ", servo2.getPosition());
             telemetry.addData("servo3: ", servo3.getPosition());
-            telemetry.update();
 
             if (gamepad2.right_stick_y > 0)
-                motoryes.setPower(gamepad2.right_stick_y * 0.8);
+                motoryes.setPower(gamepad2.right_stick_y);
             else if (gamepad2.right_stick_y < 0)
-                motoryes.setPower(gamepad2.right_stick_y * 0.2);
+                motoryes.setPower(gamepad2.right_stick_y * 0.15);
             else
                 motoryes.setPower(0);
 
             telemetry.addData("motorYes: ", motoryes.getCurrentPosition());
-            telemetry.update();
-
 
             if (gamepad2.a)
                 ax0.setPosition(ax0.getPosition()+0.001);
@@ -116,6 +123,7 @@ public class SkyStoneDemoTeleOp extends LinearOpMode {
 
             telemetry.addData("ax0: ", ax0.getPosition());
             telemetry.addData("ax1: ", ax1.getPosition());
+            telemetry.update();
         }
     }
 

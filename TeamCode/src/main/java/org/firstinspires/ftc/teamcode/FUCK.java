@@ -5,11 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -24,8 +22,8 @@ import java.util.Locale;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
 
-@Autonomous(name = "SkyAutonomousBlueBridgeShort", group = "FTC")
-public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
+@Autonomous(name = "Autonoma -<<", group = "FTC")
+public class FUCK extends LinearOpMode {
 
     private BNO055IMU imu;
 
@@ -56,12 +54,13 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        /*
         initVuforia();
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
+        }*/
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
         parametersIMU.mode = BNO055IMU.SensorMode.IMU;
@@ -88,9 +87,10 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
             sleep(50);
             idle();
         }
+        /*
         if (tfod != null) {
             tfod.activate();
-        }
+        }*/
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("IMU Calibration Status :", imu.getCalibrationStatus().toString());
@@ -116,18 +116,7 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            moveTo(-50, 0.2);
-            skystoneFinder();
-            switch (skystonePos) {
-                case 0:
-                    strafeTo(-208.28+2*23.706, 0.69);
-                case 1:
-                    strafeTo(-208.28+1*23.706, 0.69);
-                case 2:
-                    strafeTo(-208.28+0*23.706, 0.69);
-            }
-            strafeTo( 101.6, 0.69);
-
+            moveTo(-25, 0.2);
             this.didFunctionRun = true;
         }
     }
