@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "Robot Crizat Cu arfe de FRC")
-public class SkyStoneOp2 extends LinearOpMode {
+@TeleOp(name = "Robot Crizat")
+public class SkyStoneOp2BAkau extends LinearOpMode {
 
     private DcMotor motorDF;
     private DcMotor motorDS;
@@ -25,10 +24,10 @@ public class SkyStoneOp2 extends LinearOpMode {
         motorSF = hardwareMap.dcMotor.get("MotorSF");
         motorSS = hardwareMap.dcMotor.get("MotorSS");
 
-        motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorSF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorSS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDS.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorSF.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorSS.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motorSS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -41,14 +40,15 @@ public class SkyStoneOp2 extends LinearOpMode {
 
             double x = -gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double turn = -
+                    gamepad1.right_stick_x;
             mecanum(x, y, turn);
 
             dctest.setPower(gamepad1.left_trigger);
-            dctest1.setPower(-gamepad1.left_trigger);
+            dctest1.setPower(gamepad1.left_trigger);
 
             dctest.setPower(-gamepad1.right_trigger);
-            dctest1.setPower(gamepad1.right_trigger);
+            dctest1.setPower(-gamepad1.right_trigger);
 
         }
 
