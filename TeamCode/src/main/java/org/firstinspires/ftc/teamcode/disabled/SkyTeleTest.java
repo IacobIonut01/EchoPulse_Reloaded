@@ -1,15 +1,17 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.disabled;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import static org.firstinspires.ftc.teamcode.Constants.Direction.HLEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.HRIGHT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
+import org.firstinspires.ftc.teamcode.disabled.Constants;
+import org.firstinspires.ftc.teamcode.disabled.EchoPulse_Parts;
+
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.HLEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.HRIGHT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.RIGHT;
 @Disabled
 @TeleOp(name = "Sky Teleop Test")
 public class SkyTeleTest extends LinearOpMode {

@@ -14,8 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name = "SkyAutonomousBlue", group = "FTC")
-public class SkyAuto extends LinearOpMode {
+@Autonomous(name = "SkyAutonomous VELOCITY", group = "FTC")
+public class SkyVelocity extends LinearOpMode {
 
     private BNO055IMU imu;
 
@@ -80,18 +80,7 @@ public class SkyAuto extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            moveToPosition(27, 0.4);
-            strafeToPosition(-26.0, 0.4);
-            platforma0.setPosition(0.55);
-            platforma1.setPosition(0.55);
-            sleep(500);
-            strafeToPosition(4.6, 0.4);
-            turnWithGyro(90, -0.4);
-            strafeToPosition(-22.4, 0.4);
-            platforma0.setPosition(0);
-            platforma1.setPosition(0);
-            sleep(500);
-            moveToPosition(-36, 0.4);
+            moveToPosition(34, 0.5);
             this.didFunctionRun = true;
         }
     }

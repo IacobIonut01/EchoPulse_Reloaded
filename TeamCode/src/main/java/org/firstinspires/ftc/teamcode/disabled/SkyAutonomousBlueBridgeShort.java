@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.disabled;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -6,11 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -18,15 +16,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.disabled.Constants;
 
 import java.util.List;
 import java.util.Locale;
 
-import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.RIGHT;
 @Disabled
-@Autonomous(name = "proba", group = "FTC")
-public class TestPrecizie extends LinearOpMode {
+
+@Autonomous(name = "SkyAutonomousBlueBridgeShort", group = "FTC")
+public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
 
     private BNO055IMU imu;
 
@@ -117,11 +117,17 @@ public class TestPrecizie extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            moveTo(30, 0.7);
-            //strafeTo(50, 0.2);
-            //moveTo(-50, 0.2);
-            //strafeTo(-50, 0.2);
-            //rotate(90);
+            moveTo(-50, 0.2);
+            skystoneFinder();
+            switch (skystonePos) {
+                case 0:
+                    strafeTo(-208.28+2*23.706, 0.69);
+                case 1:
+                    strafeTo(-208.28+1*23.706, 0.69);
+                case 2:
+                    strafeTo(-208.28+0*23.706, 0.69);
+            }
+            strafeTo( 101.6, 0.69);
 
             this.didFunctionRun = true;
         }
@@ -149,8 +155,10 @@ public class TestPrecizie extends LinearOpMode {
                 }
                 telemetry.update();
                 while (!skystoneFound) {
-                    strafeTo(23.706, 0.2);
+                    strafeTo(-23.706, 0.2);
                     skystonePos++;
+                    if (skystonePos > 2)
+                        skystoneFound=true;
                 }
                 if (skystoneFound) {
                     stopAuto();
@@ -181,10 +189,10 @@ public class TestPrecizie extends LinearOpMode {
     private void moveTo(double cm, double speed){
         int countsNeeded = (int)(countsPerCM * cm);
 
-        motorDF.setTargetPosition(motorDF.getCurrentPosition() + countsNeeded);
-        motorDS.setTargetPosition(motorDS.getCurrentPosition() + countsNeeded);
-        motorSF.setTargetPosition(motorSF.getCurrentPosition() + countsNeeded);
-        motorSS.setTargetPosition(motorSS.getCurrentPosition() + countsNeeded);
+        motorDF.setTargetPosition(motorDF.getCurrentPosition() - countsNeeded);
+        motorDS.setTargetPosition(motorDS.getCurrentPosition() - countsNeeded);
+        motorSF.setTargetPosition(motorSF.getCurrentPosition() - countsNeeded);
+        motorSS.setTargetPosition(motorSS.getCurrentPosition() - countsNeeded);
 
         motorDF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorDS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -198,9 +206,7 @@ public class TestPrecizie extends LinearOpMode {
 
 
         while(motorDF.isBusy() && motorDS.isBusy() && motorSF.isBusy() && motorSS.isBusy()){
-            int currentEncoderValue = motorDF.getCurrentPosition();
-            telemetry.addData("motorDF encoder:", currentEncoderValue);
-            telemetry.update();
+
         }
 
         motorDF.setPower(0);
@@ -218,9 +224,9 @@ public class TestPrecizie extends LinearOpMode {
         int countsNeeded = (int)(countsPerCM * cm);
 
         motorDF.setTargetPosition(motorDF.getCurrentPosition() + countsNeeded);
-        motorDS.setTargetPosition(motorDS.getCurrentPosition() + countsNeeded);
+        motorDS.setTargetPosition(motorDS.getCurrentPosition() - countsNeeded);
         motorSF.setTargetPosition(motorSF.getCurrentPosition() - countsNeeded);
-        motorSS.setTargetPosition(motorSS.getCurrentPosition() - countsNeeded);
+        motorSS.setTargetPosition(motorSS.getCurrentPosition() + countsNeeded);
 
         motorDF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorDS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -234,9 +240,7 @@ public class TestPrecizie extends LinearOpMode {
 
 
         while(motorDF.isBusy() && motorDS.isBusy() && motorSF.isBusy() && motorSS.isBusy()){
-            int currentEncoderValue = motorDF.getCurrentPosition();
-            telemetry.addData("motorDF encoder:", currentEncoderValue);
-            telemetry.update();
+
         }
 
         motorDF.setPower(0);
@@ -332,7 +336,7 @@ public class TestPrecizie extends LinearOpMode {
         motorSF.setPower(0);
     }
 
-    void reversePolarity(){
+    private void reversePolarity(){
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSF.setDirection(DcMotorSimple.Direction.REVERSE);

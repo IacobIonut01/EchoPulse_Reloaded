@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.disabled;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -11,11 +11,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.disabled.Constants;
+import org.firstinspires.ftc.teamcode.disabled.EchoPulse_Parts;
 
-import static org.firstinspires.ftc.teamcode.Constants.Direction.FORWARD;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.HLEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.HLEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.RIGHT;
 
 @Disabled
 //original

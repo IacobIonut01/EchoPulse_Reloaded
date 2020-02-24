@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Robot Crizat")
-public class SkyStoneOp2BAkau extends LinearOpMode {
+@TeleOp(name = "SkyTeleop")
+public class SkyTeleop extends LinearOpMode {
 
     private DcMotor motorDF;
     private DcMotor motorDS;
@@ -17,6 +18,10 @@ public class SkyStoneOp2BAkau extends LinearOpMode {
     public void runOpMode() {
         DcMotor dctest = hardwareMap.dcMotor.get("dcmotor");
         DcMotor dctest1 = hardwareMap.dcMotor.get("dcmotor1");
+
+
+        Servo platforma0 = hardwareMap.servo.get("servo0");
+        Servo platforma1 = hardwareMap.servo.get("servo1");
 
         dctest.setDirection(DcMotorSimple.Direction.REVERSE);
         motorDF = hardwareMap.dcMotor.get("MotorDF");
@@ -40,8 +45,7 @@ public class SkyStoneOp2BAkau extends LinearOpMode {
 
             double x = -gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
-            double turn = -
-                    gamepad1.right_stick_x;
+            double turn = -gamepad1.right_stick_x;
             mecanum(x, y, turn);
 
             dctest.setPower(gamepad1.left_trigger);
@@ -50,6 +54,14 @@ public class SkyStoneOp2BAkau extends LinearOpMode {
             dctest.setPower(-gamepad1.right_trigger);
             dctest1.setPower(-gamepad1.right_trigger);
 
+            if (gamepad1.right_bumper) {
+                platforma0.setPosition(0.55);
+                platforma1.setPosition(0.55);
+            }
+            if (gamepad1.left_bumper) {
+                platforma0.setPosition(1);
+                platforma1.setPosition(0);
+            }
         }
 
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.disabled;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -16,16 +16,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.disabled.Constants;
 
 import java.util.List;
 import java.util.Locale;
 
-import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.RIGHT;
 @Disabled
-
-@Autonomous(name = "SkyAutonomousRedBridgeShort", group = "FTC")
-public class SkyAutonomousRedBridgeShort extends LinearOpMode {
+@Autonomous(name = "proba", group = "FTC")
+public class TestPrecizie extends LinearOpMode {
 
     private BNO055IMU imu;
 
@@ -116,17 +116,11 @@ public class SkyAutonomousRedBridgeShort extends LinearOpMode {
 
     private void DoAutonomusStuff(boolean didFunctionRun){
         if(!didFunctionRun){
-            moveTo(58.42, 0.3);
-            skystoneFinder();
-            switch (skystonePos) {
-                case 0:
-                    strafeTo(208.28-2*23.706, 0.69);
-                case 1:
-                    strafeTo(208.28-1*23.706, 0.69);
-                case 2:
-                    strafeTo(208.28-0*23.706, 0.69);
-            }
-            strafeTo( -101.6, 0.69);
+            moveTo(30, 0.7);
+            //strafeTo(50, 0.2);
+            //moveTo(-50, 0.2);
+            //strafeTo(-50, 0.2);
+            //rotate(90);
 
             this.didFunctionRun = true;
         }
@@ -154,7 +148,7 @@ public class SkyAutonomousRedBridgeShort extends LinearOpMode {
                 }
                 telemetry.update();
                 while (!skystoneFound) {
-                    strafeTo(-23.706, 0.2);
+                    strafeTo(23.706, 0.2);
                     skystonePos++;
                 }
                 if (skystoneFound) {
@@ -196,8 +190,8 @@ public class SkyAutonomousRedBridgeShort extends LinearOpMode {
         motorSF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorSS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorDF.setPower(speed - checkDirection());
-        motorDS.setPower(speed - checkDirection());
+        motorDF.setPower(speed);
+        motorDS.setPower(speed);
         motorSF.setPower(speed);
         motorSS.setPower(speed);
 
@@ -222,9 +216,9 @@ public class SkyAutonomousRedBridgeShort extends LinearOpMode {
     private void strafeTo(double cm, double speed){
         int countsNeeded = (int)(countsPerCM * cm);
 
-        motorDF.setTargetPosition(motorDF.getCurrentPosition() - countsNeeded);
+        motorDF.setTargetPosition(motorDF.getCurrentPosition() + countsNeeded);
         motorDS.setTargetPosition(motorDS.getCurrentPosition() + countsNeeded);
-        motorSF.setTargetPosition(motorSF.getCurrentPosition() + countsNeeded);
+        motorSF.setTargetPosition(motorSF.getCurrentPosition() - countsNeeded);
         motorSS.setTargetPosition(motorSS.getCurrentPosition() - countsNeeded);
 
         motorDF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -232,8 +226,8 @@ public class SkyAutonomousRedBridgeShort extends LinearOpMode {
         motorSF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorSS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorDF.setPower(speed - checkDirection());
-        motorDS.setPower(speed - checkDirection());
+        motorDF.setPower(speed);
+        motorDS.setPower(speed);
         motorSF.setPower(speed);
         motorSS.setPower(speed);
 
@@ -337,7 +331,7 @@ public class SkyAutonomousRedBridgeShort extends LinearOpMode {
         motorSF.setPower(0);
     }
 
-    private void reversePolarity(){
+    void reversePolarity(){
         motorDF.setDirection(DcMotorSimple.Direction.FORWARD);
         motorDS.setDirection(DcMotorSimple.Direction.FORWARD);
         motorSF.setDirection(DcMotorSimple.Direction.REVERSE);

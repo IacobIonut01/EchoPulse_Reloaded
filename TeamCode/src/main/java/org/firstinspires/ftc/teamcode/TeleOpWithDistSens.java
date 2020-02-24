@@ -5,10 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name = "Robot")
 public class TeleOpWithDistSens extends LinearOpMode {
     private DcMotor motorDF;
@@ -50,15 +49,6 @@ public class TeleOpWithDistSens extends LinearOpMode {
             double x = -gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
             double turn = -gamepad1.right_stick_x ;
-
-            /*
-            //La <0.05 robotul mai ca nu vrea sa porneasca
-            if(x < 0.05 || x > -0.05) x = 0;
-            if(y < 0.05 || y > -0.05) y = 0;
-
-            //Logarithmic control
-            x = (x*10)*(x*10)*(x*10)/1000;
-            y = (y*10)*(y*10)*(y*10)/1000;*/
             mecanum(x, y, turn);
 
             dctest.setPower(gamepad1.left_trigger);
@@ -67,52 +57,46 @@ public class TeleOpWithDistSens extends LinearOpMode {
             dctest.setPower(-gamepad1.right_trigger);
             dctest1.setPower(-gamepad1.right_trigger);
 
+            telemetry.addData("Nu este necesara calibrarea", "");
             telemetry.addData("senzor stg: ", sensorStg.getDistance(DistanceUnit.CM));
             telemetry.addData("senzor dr: ", sensorDr.getDistance(DistanceUnit.CM));
             telemetry.update();
 
-            boolean lock = false;
-            if(gamepad1.a){
-                if(sensorDr.getDistance(DistanceUnit.CM) > sensorStg.getDistance(DistanceUnit.CM)){
-                    double dist = sensorDr.getDistance(DistanceUnit.CM);
-                    if (!lock) dist = sensorStg.getDistance(DistanceUnit.CM);
-                    lock=true;
-                    while(sensorDr.getDistance(DistanceUnit.CM) > dist){
-                        motorDF.setPower(0.6);
-                        motorDF.setPower(0.6);
+            double distStanga =  sensorStg.getDistance(DistanceUnit.CM);
+            double distDreapta =  sensorDr.getDistance(DistanceUnit.CM);
 
-                        telemetry.addData("Corectie","");
-                        telemetry.addData("senzor stg: ", sensorStg.getDistance(DistanceUnit.CM));
-                        telemetry.addData("senzor dr: ", sensorDr.getDistance(DistanceUnit.CM));
+            if(gamepad1.a){
+                if (distDreapta > distStanga) {
+                    while (!check(distDreapta, distStanga)) {
+                        motorDF.setPower(0.69);
+                        motorDS.setPower(0.69);
+                        telemetry.addData("Calibrare...", "");
+                        telemetry.addData("senzor stg: ", distStanga);
+                        telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
                     }
                     motorDF.setPower(0);
                     motorDS.setPower(0);
-                    lock=false;
-                }else{
-                    double dist = sensorStg.getDistance(DistanceUnit.CM);
-                    if(!lock) dist = sensorDr.getDistance(DistanceUnit.CM);
-                    lock=true;
+                }
 
-                    while(sensorStg.getDistance(DistanceUnit.CM) > dist){
-                        motorSF.setPower(0.6);
-                        motorSF.setPower(0.6);
-
-                        telemetry.addData("Corectie","");
-                        telemetry.addData("senzor stg: ", sensorStg.getDistance(DistanceUnit.CM));
-                        telemetry.addData("senzor dr: ", sensorDr.getDistance(DistanceUnit.CM));
+                if (distStanga > distDreapta) {
+                    while (!check(distStanga, distDreapta)) {
+                        motorSF.setPower(0.69);
+                        motorSS.setPower(0.69);
+                        telemetry.addData("Calibrare...", "");
+                        telemetry.addData("senzor stg: ", distStanga);
+                        telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
                     }
                     motorSF.setPower(0);
                     motorSS.setPower(0);
-                    lock=false;
                 }
-
             }
-
         }
+    }
 
-
+    private boolean check(double first, double second) {
+        return Math.abs(first - second) <= 1;
     }
 
     /**

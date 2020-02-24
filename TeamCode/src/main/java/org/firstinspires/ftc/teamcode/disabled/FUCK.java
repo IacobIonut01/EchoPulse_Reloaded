@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.disabled;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,8 +19,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
-import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.RIGHT;
 
 @Autonomous(name = "Autonoma -<<", group = "FTC")
 public class FUCK extends LinearOpMode {

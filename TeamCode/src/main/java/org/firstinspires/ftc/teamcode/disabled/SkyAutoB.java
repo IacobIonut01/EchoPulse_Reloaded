@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.disabled;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -6,11 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -22,12 +20,12 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
-import static org.firstinspires.ftc.teamcode.Constants.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Constants.Direction.RIGHT;
-@Disabled
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.disabled.Constants.Direction.RIGHT;
 
-@Autonomous(name = "SkyAutonomousBlueBridgeShort", group = "FTC")
-public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
+@Disabled
+@Autonomous(name = "SkyAutonomous", group = "FTC")
+public class SkyAutoB extends LinearOpMode {
 
     private BNO055IMU imu;
 
@@ -75,6 +73,7 @@ public class SkyAutonomousBlueBridgeShort extends LinearOpMode {
         motorDS = hardwareMap.dcMotor.get("MotorDS");
         motorSF = hardwareMap.dcMotor.get("MotorSF");
         motorSS = hardwareMap.dcMotor.get("MotorSS");
+
 
         motorSS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
