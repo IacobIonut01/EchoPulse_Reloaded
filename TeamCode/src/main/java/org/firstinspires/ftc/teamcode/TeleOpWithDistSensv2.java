@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "Robot")
-public class TeleOpWithDistSens extends LinearOpMode {
+@TeleOp(name = "Robot 2")
+public class TeleOpWithDistSensv2 extends LinearOpMode {
     private DcMotor motorDF;
     private DcMotor motorDS;
     private DcMotor motorSF;
@@ -67,35 +67,41 @@ public class TeleOpWithDistSens extends LinearOpMode {
 
 
             if(gamepad1.a){
-                if (distDreapta > distStanga) {
-                    while (check(distDreapta, distStanga)) {
-                        motorSF.setPower(0.69);
-                        motorSS.setPower(0.69);
+                while(!check(distDreapta, distStanga) && distStanga >= 1 && distDreapta >= 1) {
+                    while (distDreapta > distStanga && distStanga >= 1 && distDreapta >= 1) {
+                        distStanga = sensorStg.getDistance(DistanceUnit.CM);
+                        distDreapta = sensorDr.getDistance(DistanceUnit.CM);
+                        double speed = 2*(distSens(distStanga, distDreapta))/15;
+                        motorSF.setPower(speed);
+                        motorSS.setPower(speed);
                         telemetry.addData("Calibrare...", "");
                         telemetry.addData("senzor stg: ", distStanga);
                         telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
                     }
-                    motorDF.setPower(0);
-                    motorDS.setPower(0);
-                }
 
-                if (distStanga > distDreapta) {
-                    while (check(distStanga, distDreapta)) {
-                        motorDF.setPower(0.69);
-                        motorDS.setPower(0.69);
+                    while (distStanga > distDreapta && distStanga >= 1 && distDreapta >= 1) {
+                        distStanga = sensorStg.getDistance(DistanceUnit.CM);
+                        distDreapta = sensorDr.getDistance(DistanceUnit.CM);
+                        double speed = 2*(distSens(distStanga, distDreapta))/15;
+                        motorDF.setPower(speed);
+                        motorDS.setPower(speed);
                         telemetry.addData("Calibrare...", "");
                         telemetry.addData("senzor stg: ", distStanga);
                         telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
                     }
-                    motorSF.setPower(0);
-                    motorSS.setPower(0);
                 }
+                motorSF.setPower(0);
+                motorSS.setPower(0);
+                motorDF.setPower(0);
+                motorDS.setPower(0);
             }
         }
     }
-
+    private double distSens(double first, double second) {
+        return Math.abs(first - second);
+    }
     private boolean check(double first, double second) {
         return Math.abs(first - second) <= 1;
     }
@@ -105,7 +111,7 @@ public class TeleOpWithDistSens extends LinearOpMode {
      *
      * @param Strafe  is the first double X value which represents how the base should strafe
      * @param Forward is the only double Y value which represents how the base should drive forward
-     * @param Turn    is the second double X value which represents how the base should turn
+     * @param Turn    i the second double X value which represents how the base should turn
      */
     public void mecanum(double Strafe, double Forward, double Turn) {
         //Find the magnitude of the controller's input
