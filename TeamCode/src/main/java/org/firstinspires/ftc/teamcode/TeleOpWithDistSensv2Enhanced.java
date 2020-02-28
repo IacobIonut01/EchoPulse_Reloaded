@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "Robot 2")
-public class TeleOpWithDistSensv2 extends LinearOpMode {
+@TeleOp(name = "Robot 2 Enhanced")
+public class TeleOpWithDistSensv2Enhanced extends LinearOpMode {
     private DcMotor motorDF;
     private DcMotor motorDS;
     private DcMotor motorSF;
@@ -46,9 +46,9 @@ public class TeleOpWithDistSensv2 extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double x = -gamepad1.left_stick_x;
-            double y = gamepad1.left_stick_y;
-            double turn = -gamepad1.right_stick_x ;
+            double x = Math.abs(gamepad1.left_stick_x) < 0.05 ? 0 :  -progressiveAcceleration(gamepad1.left_stick_x);
+            double y = Math.abs(gamepad1.left_stick_y) < 0.05 ? 0 : progressiveAcceleration(gamepad1.left_stick_y);
+            double turn = Math.abs(gamepad1.right_stick_x) < 0.05 ? 0 : -progressiveAcceleration(gamepad1.right_stick_x);
             mecanum(x, y, turn);
 
             dctest.setPower(gamepad1.left_trigger);
@@ -105,6 +105,35 @@ public class TeleOpWithDistSensv2 extends LinearOpMode {
     private boolean check(double first, double second) {
         return Math.abs(first - second) <= 1;
     }
+
+    // valoarea este setata si blocata, se accelereaza
+    // valoarea noua este mai mica decat valoarea veche, se decelereaza pana la valoarea noua
+    // valoarea noua este mai mare decat valoarea veche, se accelereaza pana la valoarea noua
+
+    private static double tempSpeedNou;
+    private static double tempSpeedVechi = 0;
+
+    private double progressiveAcceleration(double target) {
+        tempSpeedNou = target;
+        double tempAcc;
+        tempAcc = tempSpeedVechi;
+        if (tempSpeedVechi > tempSpeedNou) {
+            while (tempAcc != target && target <= 1) {
+                sleep(5);
+                tempAcc -= 0.01;
+                return tempAcc;
+            }
+        } else if (tempSpeedVechi < tempSpeedNou) {
+            while (tempAcc <= tempSpeedNou && target <= 1) {
+                sleep(5);
+                tempAcc += 0.01;
+                return tempAcc;
+            }
+        }
+        tempSpeedVechi = target;
+        return 0;
+    }
+
 
     /**
      * Control a mecanum drive base with three double inputs
