@@ -23,10 +23,10 @@ public class TeleOpWithDistSensv2Enhanced extends LinearOpMode {
         sensorStg = hardwareMap.get(DistanceSensor.class, "senzor stg");
         sensorDr = hardwareMap.get(DistanceSensor.class, "senzor dr");
 
-        DcMotor dctest = hardwareMap.dcMotor.get("dcmotor");
-        DcMotor dctest1 = hardwareMap.dcMotor.get("dcmotor1");
+        //DcMotor dctest = hardwareMap.dcMotor.get("dcmotor");
+        //DcMotor dctest1 = hardwareMap.dcMotor.get("dcmotor1");
 
-        dctest.setDirection(DcMotorSimple.Direction.REVERSE);
+        //dctest.setDirection(DcMotorSimple.Direction.REVERSE);
         motorDF = hardwareMap.dcMotor.get("MotorDF");
         motorDS = hardwareMap.dcMotor.get("MotorDS");
         motorSF = hardwareMap.dcMotor.get("MotorSF");
@@ -51,11 +51,11 @@ public class TeleOpWithDistSensv2Enhanced extends LinearOpMode {
             double turn = Math.abs(gamepad1.right_stick_x) < 0.05 ? 0 : -progressiveAcceleration(gamepad1.right_stick_x);
             mecanum(x, y, turn);
 
-            dctest.setPower(gamepad1.left_trigger);
-            dctest1.setPower(gamepad1.left_trigger);
+            //dctest.setPower(gamepad1.left_trigger);
+            //dctest1.setPower(gamepad1.left_trigger);
 
-            dctest.setPower(-gamepad1.right_trigger);
-            dctest1.setPower(-gamepad1.right_trigger);
+            //dctest.setPower(-gamepad1.right_trigger);
+            //dctest1.setPower(-gamepad1.right_trigger);
 
             telemetry.addData("Nu este necesara calibrarea", "");
             telemetry.addData("senzor stg: ", sensorStg.getDistance(DistanceUnit.CM));

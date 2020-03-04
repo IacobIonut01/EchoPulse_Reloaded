@@ -46,9 +46,9 @@ public class TeleOpWithDistSensv2 extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double x = -gamepad1.left_stick_x;
-            double y = gamepad1.left_stick_y;
-            double turn = -gamepad1.right_stick_x ;
+            double x = Math.abs(gamepad1.left_stick_x) < 0.05 ? 0 :  -(gamepad1.left_stick_x);
+            double y = Math.abs(gamepad1.left_stick_y) < 0.05 ? 0 : (gamepad1.left_stick_y);
+            double turn = Math.abs(gamepad1.right_stick_x) < 0.05 ? 0 : -(gamepad1.right_stick_x);
             mecanum(x, y, turn);
 
             dctest.setPower(gamepad1.left_trigger);
@@ -67,30 +67,45 @@ public class TeleOpWithDistSensv2 extends LinearOpMode {
 
 
             if(gamepad1.a){
-                while(!check(distDreapta, distStanga) && (distStanga >= 1 && distDreapta >= 1)) {
-                    while (distDreapta > distStanga || distDreapta >= 1) {
+                while(!check(distDreapta, distStanga) && (distStanga >= 3 && distDreapta >= 3) ){
+                    while (distDreapta > distStanga ) {
+                        if(gamepad1.left_stick_y > 0.05 && gamepad1.left_stick_x> 0.05)
+                            break;
+                        if(distDreapta < 3 || distStanga < 3)
+                            break;
                         distStanga = sensorStg.getDistance(DistanceUnit.CM);
                         distDreapta = sensorDr.getDistance(DistanceUnit.CM);
-                        double speed = 2*(distSens(distStanga, distDreapta))/15;
+                        double speed = 2*(distSens(distStanga, distDreapta))/30;
                         motorSF.setPower(speed);
                         motorSS.setPower(speed);
                         telemetry.addData("Calibrare...", "");
                         telemetry.addData("senzor stg: ", distStanga);
                         telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
+                        sleep(500);
                     }
 
-                    while (distStanga > distDreapta || distStanga >= 1) {
+                    while (distStanga > distDreapta ) {
+                        if(gamepad1.left_stick_y > 0.05 && gamepad1.left_stick_x> 0.05)
+                            break;
+                        if(distDreapta < 3 || distStanga < 3)
+                            break;
                         distStanga = sensorStg.getDistance(DistanceUnit.CM);
                         distDreapta = sensorDr.getDistance(DistanceUnit.CM);
-                        double speed = 2*(distSens(distStanga, distDreapta))/15;
+                        double speed = 2*(distSens(distStanga, distDreapta))/30;
                         motorDF.setPower(speed);
                         motorDS.setPower(speed);
                         telemetry.addData("Calibrare...", "");
                         telemetry.addData("senzor stg: ", distStanga);
                         telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
+                        sleep(500);
                     }
+
+                    if(distDreapta < 3 || distStanga < 3)
+                        break;
+                    if(gamepad1.left_stick_y > 0.05 && gamepad1.left_stick_x> 0.05)
+                        break;
                 }
                 motorSF.setPower(0);
                 motorSS.setPower(0);
