@@ -67,39 +67,38 @@ public class TeleOpWithDistSensv2 extends LinearOpMode {
 
 
             if(gamepad1.a){
-                while(!check(distDreapta, distStanga) && (distStanga >= 3 && distDreapta >= 3) ){
+                while(!check(distDreapta, distStanga)){
                     while (distDreapta > distStanga ) {
                         if(gamepad1.left_stick_y > 0.05 && gamepad1.left_stick_x> 0.05)
                             break;
-                        if(distDreapta < 3 || distStanga < 3)
+                        if(distDreapta < 2 || distStanga < 2)
                             break;
                         distStanga = sensorStg.getDistance(DistanceUnit.CM);
                         distDreapta = sensorDr.getDistance(DistanceUnit.CM);
-                        double speed = 2*(distSens(distStanga, distDreapta))/30;
+                        double speed = (distSens(distStanga, distDreapta))/45;
                         motorSF.setPower(speed);
                         motorSS.setPower(speed);
-                        telemetry.addData("Calibrare...", "");
                         telemetry.addData("senzor stg: ", distStanga);
                         telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
-                        sleep(500);
+                        //wait(1500);
+                        sleep(700);
                     }
 
                     while (distStanga > distDreapta ) {
                         if(gamepad1.left_stick_y > 0.05 && gamepad1.left_stick_x> 0.05)
                             break;
-                        if(distDreapta < 3 || distStanga < 3)
+                        if(distDreapta < 2 || distStanga < 2)
                             break;
                         distStanga = sensorStg.getDistance(DistanceUnit.CM);
                         distDreapta = sensorDr.getDistance(DistanceUnit.CM);
-                        double speed = 2*(distSens(distStanga, distDreapta))/30;
+                        double speed = (distSens(distStanga, distDreapta))/45;
                         motorDF.setPower(speed);
                         motorDS.setPower(speed);
-                        telemetry.addData("Calibrare...", "");
                         telemetry.addData("senzor stg: ", distStanga);
                         telemetry.addData("senzor dr: ", distDreapta);
                         telemetry.update();
-                        sleep(500);
+                        sleep(700);
                     }
 
                     if(distDreapta < 3 || distStanga < 3)
@@ -118,7 +117,7 @@ public class TeleOpWithDistSensv2 extends LinearOpMode {
         return Math.abs(first - second);
     }
     private boolean check(double first, double second) {
-        return Math.abs(first - second) <= 1;
+        return Math.abs(first - second) <= 0.5;
     }
 
     /**
